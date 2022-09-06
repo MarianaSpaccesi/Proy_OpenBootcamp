@@ -7,9 +7,9 @@ import Father from './components/container/father';
 function App() {
   return (
     <div className="App">
-        {/* <TaskListComponent /> */}
+        <TaskListComponent />
         {/**<GreetingStyled />*/}
-        <Father></Father>
+        {/* <Father></Father> */}
     </div>
   );
 }
