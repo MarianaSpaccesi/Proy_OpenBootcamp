@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 
 //  estilo para usuario logueado
 const loggedStyle = {
-    color: 'green'
+    backgroundColor: 'green',
+    color: 'white',
+    fontWeight: 'bold'
 }
 
 //  estilo para usuario no logueado

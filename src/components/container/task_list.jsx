@@ -20,7 +20,9 @@ const TaskListComponent = () => {
     //Control del ciclo de vida del componente
     useEffect(() => {
         console.log("modificacion de tareas");
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000)
         return() => {
             console.log("TaskList esta desmontandose");
         }
@@ -46,10 +48,53 @@ const TaskListComponent = () => {
 
     function addTask(task){
         console.log("Add this task: ", task);
-        const index = tasks.indexOf(task);
         const tempTask = [...tasks]; 
         tempTask.push(task);
         setTasks(tempTask);
+    }
+
+    const Table = () =>{
+        return(
+            <table>
+                <thead>
+                    <tr>
+                        <th scope='col'>Título</th>
+                        <th scope='col'>Descripción</th>
+                        <th scope='col'>Prioridad</th>
+                        <th scope='col'>Acciones</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {tasks.map((task, index) => {
+                            return(
+                                <TaskComponent 
+                                key={index} 
+                                task={task} 
+                                complete={completeTask}
+                                remove={removeTask}/>
+                            )
+                        })}
+                    </tbody>
+            </table>
+        )
+    }
+
+    let tasksTable 
+
+    if (tasks.length > 0){
+        tasksTable = <Table></Table>
+    } else {
+        tasksTable = (
+            <div>
+                <h3>No hay tareas para mostrar</h3>
+            </div>
+        )
+    }
+
+    const loadingStyle = {
+        color: 'gray',
+        fontSize: '30px',
+        fontWeight: 'bold'
     }
 
     return (
@@ -59,37 +104,16 @@ const TaskListComponent = () => {
                     {/**Card header */}
                     <div className='card-header p-3'>
                         <h5>
-                            Tu tarea: 
+                            Tus tareas: 
                         </h5>
                     </div>
                     {/**Card body (contenido) */}
                     <div className='card-body' data-mdb-perfect-scrollbar='true' style={ {position: 'relative', height: '400px'} }>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th scope='col'>Título</th>
-                                    <th scope='col'>Descripción</th>
-                                    <th scope='col'>Prioridad</th>
-                                    <th scope='col'>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tasks.map((task, index) => {
-                                    return(
-                                        <TaskComponent 
-                                        key={index} 
-                                        task={task} 
-                                        complete={completeTask}
-                                        remove={removeTask}
-                                        />
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                        {loading ? (<p style={loadingStyle}>Cargando tareas</p>) : tasksTable}
                     </div>
                 </div>
             </div>
-            <TaskForm add={addTask}></TaskForm>
+            <TaskForm add={addTask} length={tasks.length}></TaskForm>
         </div>
     );
 };
